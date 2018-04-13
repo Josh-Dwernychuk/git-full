@@ -1,0 +1,15 @@
+#!/bin/sh
+
+source "$(git --exec-path)/git-sh-setup"
+
+USAGE="COMMITS"
+function _full() {
+    for ((i = 1; i < $#; i++))
+    do
+    git add ${!i}
+    done
+    git commit -m "${!i}"
+    branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+    git push origin $branch
+}
+_full "$@"
